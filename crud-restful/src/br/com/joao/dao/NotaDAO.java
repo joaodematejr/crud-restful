@@ -6,22 +6,31 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import br.com.joao.config.BDConfig;
 import br.com.joao.entity.Nota;
 
 public class NotaDAO {
 
 	// SALVAR
-	public void addNota(Nota nota) throws Exception {
+	public int addNota(Nota nota) throws Exception {
 		int idGerado = 0;
 		Connection conexao = BDConfig.getConnection();
 
 		String sql = "INSERT INTO TB_NOTA(TITULO, DESCRICAO) VALUES(?, ?)";
 
-		PreparedStatement statement = conexao.prepareStatement(sql);
+		PreparedStatement statement = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		statement.setString(1, nota.getTitulo());
 		statement.setString(2, nota.getDescricao());
 		statement.execute();
+
+		ResultSet rs = statement.getGeneratedKeys();
+
+		if (rs.next()) {
+			idGerado = rs.getInt(1);
+		}
+		return idGerado;
 	}
 
 	// LISTAR

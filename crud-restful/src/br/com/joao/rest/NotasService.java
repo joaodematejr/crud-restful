@@ -37,9 +37,9 @@ public class NotasService {
 		String msg = "";
 		System.out.println(nota.getTitulo());
 		try {
-			notaDAO.addNota(nota);
+			int idGerado = notaDAO.addNota(nota);
 
-			msg = "Nota add com sucesso!";
+			msg = String.valueOf(idGerado);
 		} catch (Exception e) {
 			msg = "Erro ao add a nota!";
 			e.printStackTrace();
