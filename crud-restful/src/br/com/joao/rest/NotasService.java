@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -72,8 +74,42 @@ public class NotasService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return nota;
+	}
+
+	// EDITAR
+	@PUT
+	@Path("/edit/{id}")
+	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String editarNota(Nota nota, @PathParam("id") int id) {
+		String msg = "";
+		System.out.println(nota.getTitulo());
+		try {
+			notaDAO.editarNota(nota, id);
+			msg = "Nota editada com sucesso!";
+		} catch (Exception e) {
+			msg = "Erro ao editar a nota!";
+			e.printStackTrace();
+		}
+		return msg;
+	}
+
+	// EDITAR
+	@DELETE
+	@Path("/delete/{id}")
+	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteNota(@PathParam("id") int id) {
+		String msg = "";
+		try {
+			notaDAO.removerNota(id);
+			msg = "Nota excluida com sucesso!";
+		} catch (Exception e) {
+			msg = "Erro ao excluir a nota!";
+			e.printStackTrace();
+		}
+		return msg;
 	}
 
 }

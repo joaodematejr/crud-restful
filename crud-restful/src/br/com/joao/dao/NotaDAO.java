@@ -70,11 +70,11 @@ public class NotaDAO {
 	}
 
 	// DELETAR
-	public void removerNota(int idNota) throws Exception {
+	public void removerNota(int id) throws Exception {
 		Connection conexao = BDConfig.getConnection();
 		String sql = "DELETE FROM TB_NOTA WHERE ID = ?";
 		PreparedStatement statement = conexao.prepareStatement(sql);
-		statement.setInt(1, idNota);
+		statement.setInt(1, id);
 		statement.execute();
 	}
 
